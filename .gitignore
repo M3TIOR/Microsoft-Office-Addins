@@ -77,7 +77,11 @@
 **/bin
 **/*.user
 
+# NodeJS modules that are not a part of this project
 **/node_modules/
 **/typings/
 **/.vscode/
+
+# Build output.
+**/dist/
 **/certs/

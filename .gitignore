@@ -1,0 +1,83 @@
+# Microsoft Office Add-ins: a collection of add-ins for the Microsoft Office Suite.
+# Copyright (C) 2018, Ruby Allison Rose (aka: M3TIOR)
+#
+# Templates used are copyright of Microsoft 2017 under the MIT license.
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
+# USA
+
+# This is also a modified version of a distributed .gitconfig from the
+# Generator-Office Project. Please see the original for modifications made.
+
+### OSX ###
+**/.DS_Store
+**/.AppleDouble
+**/.LSOverride
+
+# Icon must end with two \r
+**/Icon
+
+
+# Thumbnails
+**/._*
+
+# Files that might appear in the root of a volume
+**/.DocumentRevisions-V100
+**/.fseventsd
+**/.Spotlight-V100
+**/.TemporaryItems
+**/.Trashes
+**/.VolumeIcon.icns
+
+# Directories potentially created on remote AFP share
+**/.AppleDB
+**/.AppleDesktop
+**/Network Trash Folder
+**/Temporary Items
+**/.apdisk
+
+
+### Windows ###
+# Windows image file caches
+**/Thumbs.db
+**/ehthumbs.db
+
+# Folder config file
+**/Desktop.ini
+
+# Recycle Bin used on file shares
+**/$RECYCLE.BIN/
+
+# Windows Installer files
+**/*.cab
+**/*.msi
+**/*.msm
+**/*.msp
+
+# Windows shortcuts
+**/*.lnk
+
+# Ignore the following folders
+**/.vs
+**/.idea
+**/*.log
+**/obj
+**/bin
+**/*.user
+
+**/node_modules/
+**/typings/
+**/.vscode/
+**/certs/

@@ -24,7 +24,8 @@ All modifications are subject to the [GNU Lesser General Public License
 version 2.1][LGPLv2.1] that is also found in the root of this repository.*
 
 *All art assets contained herein are subject to the [Creative Commons Attribution
-License version 4.0][CC-BY-4.0]*
+License version 4.0][CC-BY-4.0] with the exception of the Microsoft Fabric UX
+Elements, which are subject to their own [separate asset license][2].*
 
 Note: clicking on any of the license badges at the top of this Read-me will take
 you to the respective license.
@@ -34,3 +35,4 @@ you to the respective license.
 [MIT]: https://opensource.org/licenses/MIT
 
 [1]: https://github.com/OfficeDev/generator-office
+[2]: https://static2.sharepointonline.com/files/fabric/assets/license.txt

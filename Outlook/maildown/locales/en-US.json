@@ -1,0 +1,11 @@
+{
+	"manifest.xml": {
+		"convertBtn": {
+			"label": "Style",
+			"desc": "Converts the markdown contents of the message window to HTML Styled Content"
+		}
+	},
+	"index.html":{
+
+	}
+}

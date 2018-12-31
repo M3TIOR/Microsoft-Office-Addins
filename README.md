@@ -21,11 +21,9 @@ herein, are built by the Generator-Office template project copyright of
 Microsoft 2017, under the [MIT License][MIT] provided in the root of this
 repository. Said license can also be found within the [Generator-Office project][1].
 All modifications are subject to the [GNU Lesser General Public License
-version 2.1][LGPLv2.1] that is also found in the root of this repository.*
-
-*All art assets contained herein are subject to the [Creative Commons Attribution
-License version 4.0][CC-BY-4.0] with the exception of the Microsoft Fabric UX
-Elements, which are subject to their own [separate asset license][2].*
+version 2.1][LGPLv2.1] that is also found in the root of this repository.
+All art assets contained herein are subject to the [Creative Commons Attribution
+License version 4.0][CC-BY-4.0].*
 
 Note: clicking on any of the license badges at the top of this Read-me will take
 you to the respective license.

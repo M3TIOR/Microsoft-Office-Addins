@@ -1,5 +1,6 @@
 {
 	"manifest.xml": {
+		"desc": "A button to let you style messages with Markdown",
 		"convertBtn": {
 			"label": "Style",
 			"desc": "Converts the markdown contents of the message window to HTML Styled Content"

@@ -63,7 +63,7 @@
 				<SourceLocation DefaultValue="https://{{websource}}/index.html">
 					<!--When you add different locales in, they'll go here-->
 					{{#each locales}}
-						{{<Override Locale="{{this}}" Value="https://{{websource}}/locale/{{this}}.html">}}
+						<Override Locale="{{this}}" Value="https://{{websource}}/locale/{{this}}.html">
 					{{/each}}
 				</SourceLocation>
 				<RequestedHeight>250</RequestedHeight>

@@ -12,10 +12,15 @@
   "dependencies": {
     "@microsoft/office-js-helpers": "^1.0.1",
     "babel-polyfill": "^6.26.0",
+    "extract-loader": "^3.1.0",
+    "extract-text-webpack-plugin": "^3.0.2",
     "handlebars": "^4.0.12",
+    "handlebars-loader": "^1.7.1",
+    "multi-loader": "^0.1.0",
     "office-ui-fabric-js": "^1.5.0",
     "raw-loader": "^1.0.0",
-    "render-template-loader": "^1.0.4"
+    "render-template-loader": "^1.0.4",
+    "webpack-combine-loaders": "^2.0.4"
   },
   "devDependencies": {
     "@types/office-js": "^0.0.37",
@@ -28,6 +33,6 @@
     "office-toolbox": "^0.1.0",
     "webpack": "^4.1.1",
     "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.1"
+    "webpack-dev-server": "^3.1.14"
   }
 }

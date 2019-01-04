@@ -38,7 +38,7 @@
 	<DefaultLocale>en-US</DefaultLocale>
 	<!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
 	<DisplayName DefaultValue="Maildown" />
-	<Description DefaultValue="{{locale.desc}}"/>
+	<Description DefaultValue="{{desc}}"/>
 
 	<!-- Icon for your add-in. Used on installation screens and the add-ins dialog. -->
 	<IconUrl DefaultValue="https://{{websource}}/assets/icon-32.png" />
@@ -60,10 +60,10 @@
 	<FormSettings>
 		<Form xsi:type="ItemRead">
 			<DesktopSettings>
-				<SourceLocation DefaultValue="https://{{websource}}/index.html">
+				<SourceLocation DefaultValue="https://{{websource}}/locales/{{currentLocale}}/index.html">
 					<!--When you add different locales in, they'll go here-->
 					{{#each locales}}
-						<Override Locale="{{this}}" Value="https://{{websource}}/locale/{{this}}.html">
+						<Override Locale="{{this}}" Value="https://{{websource}}/locales/{{this}}/index.html">
 					{{/each}}
 				</SourceLocation>
 				<RequestedHeight>250</RequestedHeight>
@@ -116,11 +116,11 @@
 				<bt:Url id="functionFile" DefaultValue="https://{{websource}}/function-file/function-file.html"/>
 			</bt:Urls>
 			<bt:ShortStrings>
-				<bt:String id="convertMarkdownLabel" DefaultValue="locale.convertBtn.label"/>
-				<bt:String id="convertMarkdownTitle" DefaultValue="locale.convertBtn.label"/>
+				<bt:String id="convertMarkdownLabel" DefaultValue="{{convertBtn.label}}"/>
+				<bt:String id="convertMarkdownTitle" DefaultValue="{{convertBtn.label}}"/>
 			</bt:ShortStrings>
 			<bt:LongStrings>
-				<bt:String id="convertMarkdownDesc" DefaultValue="locale.convertBtn.desc"/>
+				<bt:String id="convertMarkdownDesc" DefaultValue="{{convertBtn.desc}}"/>
 			</bt:LongStrings>
 		</Resources>
 	</VersionOverrides>

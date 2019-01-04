@@ -1,0 +1,161 @@
+/*
+ * Microsoft Office Add-ins: An add-in collection for the Microsoft Office Suite.
+ * Copyright (C) 2018, Ruby Allison Rose (aka: M3TIOR)
+ *
+ * Original templates used are copyright of Microsoft 2017 under the MIT license.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+
+// Current Library Requirements
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const combineLoaders = require('webpack-combine-loaders');
+const multi = require('multi-loader');
+
+// Standard Library imports
+const fs = require('fs');
+const path = require('path');
+
+
+supported_locales = [
+	// Update this list as new locales are added
+	"en-US"
+]
+
+
+module.exports = env => { // function(env){...}
+	// Convert module export to a function so webpack can pass in our env vars.
+
+	let extractors = []; // holds our extract-text plugin elements
+
+	// Conditional mode (might make more modular later)
+	if (env.mode == "development")
+		websource = "https://localhost:3000";
+
+	if (env.mode == "production")
+		websource = "https://m3tior.github.io/Microsoft-Office-Addins/Outlook/maildown";
+
+	let locales = supported_locales.map((key) => {
+		let info = fs.readFileSync(__dirname+"/locales/"+key+".json","utf-8");
+		return Object.assign(JSON.parse(info), { name: key });
+	});
+
+	function localize(file, options){
+		return multi(
+			...locales.map((localization) => {
+				let output = "locales/"+localization.name+"/"+file;
+				let outputName = path.basename(file);
+				let outputPath = path.dirname(file);
+				return combineLoaders([
+					{
+						loader: 'file-loader',
+						options: { name: output }
+					},
+					{
+						loader: "extract-loader",
+						options: {
+							// dynamically return a relative publicPath based on how deep
+							// in directory structure the loaded file is in /src/ directory
+							publicPath: (context) => '../'.repeat(path.relative(path.resolve('.'), context.context).split('/').length),
+						}
+					},
+					{
+						loader: 'render-template-loader',
+						options: {
+							engine: 'handlebars',
+							locals: Object.assign(
+								options.template,
+								localization[file],
+								{
+									currentLocale: localization.name,
+									outputPath: outputPath
+								}
+							),
+							init: function( engine, info ){
+								engine.registerHelper('rpath', (target) => {
+									/* Handlebars Helper: rpath
+									 * ----------------------------------------------------------
+									 * establishes a relative connection from the template file
+									 * to an external resource by tracking the original path
+									 * and changing it to accomidate for any change relative to
+									 * the resource being imported.
+									 */
+									let location = path.relative(output, target);
+									debugger;
+
+									return engine.SafeString(location);
+								});
+							}
+						}
+					}
+				])
+			})
+		)
+	}
+
+	return {
+		stats: 'verbose',
+		entry: {
+			polyfill: 'babel-polyfill',
+			app: './src/index.js',
+			'function-file': './function-file/function-file.js'
+		},
+		output: {
+			publicPath: '/dist/'
+		},
+		module: {
+			rules: [
+				{
+					test: /\.js$/,
+					exclude: /node_modules/,
+					use: 'babel-loader'
+				},
+				{
+					test: /\.html$/,
+					exclude: /node_modules/,
+					use: 'html-loader'
+				},
+				{
+					test: /\.(png|jpg|jpeg|gif)$/,
+					use: 'file-loader'
+				},
+				{
+					test: /\manifest.xml/,
+					exclude: /node_modules/,
+					use: [
+						localize("manifest.xml",{
+							template: {
+								websource: websource,
+								locales: supported_locales
+							}
+						})
+					]
+				}
+			]
+		},
+		plugins: [
+			new HtmlWebpackPlugin({
+				template: './index.html',
+				chunks: ['polyfill', 'app']
+			}),
+			new HtmlWebpackPlugin({
+				template: './function-file/function-file.html',
+				filename: 'function-file/function-file.html',
+				chunks: ['function-file']
+			})
+		],
+	};
+};

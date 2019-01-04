@@ -20,39 +20,38 @@
  * USA
  */
 
-// Current Library Requirements
+// External Library Requirements
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// Internal Library Requirements
+const localizer = require('./webpack-helpers/localizer.js')
+
 // Standard Library imports
-const fs = require('fs');
-const path = require('path');
+//...
 
 
-supported_locales = [
-	// Update this list as new locales are added
-	"en-US"
-]
-
-
+// Convert module export to a function so webpack can pass in our env vars.
 module.exports = env => { // function(env){...}
-	// Convert module export to a function so webpack can pass in our env vars.
+	let websource = "" // the location where we'll be serving our content from
 
 	// Conditional mode (might make more modular later)
-	if (env.mode == "development")
-		websource = "https://localhost:3000";
+	if (env.mode == "development") websource="https://localhost:3000";
+	if (env.mode == "production") websource="https://m3tior.github.io/Microsoft-Office-Addins/Outlook/maildown";
 
-	if (env.mode == "production")
-		websource = "https://m3tior.github.io/Microsoft-Office-Addins/Outlook/maildown";
+	// Update this list as new locales are added
+	localizer.registerLocale("en-US");
 
-	let locale = JSON.parse(fs.readFileSync(__dirname+"/locales/en-US.json","utf-8"))
-
-	/*
-	for (var key in locales){
-
-	}
-	*/
+	/* Add localized files here */
+	localizer.stage("./manifest.xml",{
+		template: {
+			websource: websource,
+			locales: localizer.supported_locales
+		}
+	})
 
 	return {
+		//stats: 'verbose',
+		mode: env.mode,
 		entry: {
 			polyfill: 'babel-polyfill',
 			app: './src/index.js',
@@ -77,30 +76,7 @@ module.exports = env => { // function(env){...}
 					test: /\.(png|jpg|jpeg|gif)$/,
 					use: 'file-loader'
 				},
-				{
-					test: /\manifest.xml/,
-					exclude: /node_modules/,
-					use: [
-						{
-							loader: 'file-loader?name=manifest.xml'
-						},
-						{
-							loader: 'render-template-loader',
-							options: {
-								engine: 'handlebars',
-								locals: {
-									websource: websource,
-									locale: locale["manifest.xml"]
-								},
-								engineOptions: function (info) {
-									// Ejs wants the template filename for partials rendering.
-									// (Configuring a "views" option can also be done.)
-									return { filename: info.filename }
-								}
-							}
-						}
-					]
-				}
+				...localizer.rules
 			]
 		},
 		plugins: [
@@ -112,7 +88,8 @@ module.exports = env => { // function(env){...}
 				template: './function-file/function-file.html',
 				filename: 'function-file/function-file.html',
 				chunks: ['function-file']
-			})
+			}),
+			...localizer.plugins
 		],
 	};
 };

@@ -35,8 +35,22 @@ function convertMarkdown(event){
 	if (item.itemType == Office.MailboxEnums.ItemType.Message){
 
 		// Load Showdown and make it spicy!
-		var converter = new showdown.Converter();
-		//converter.setFlavor('github');
+		var converter = new showdown.Converter({
+			strikethrough: true,
+			tables: true,
+			tasklist: true,
+			emoji: true,
+			underline: true,
+			omitExtraWLInCodeBlocks: true,
+			parseImgDimensions: true,
+			ghCodeBlocks: true,
+			smartIndentationFix: true,
+			disableForced4SpacesIndentedSublists: true,
+			requireSpaceBeforeHeadingText: true,
+			encodeEmails: true,
+			openLinksInNewWindow: true,
+			backslashEscapesHTMLTags: true,
+		});
 
 		content.getAsync(Office.CoercionType.Text, {}, (result) => {
 			if (result.status == "succeeded"){

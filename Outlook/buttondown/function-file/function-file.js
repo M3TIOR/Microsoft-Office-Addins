@@ -20,52 +20,91 @@
  * USA
  */
 
+// This is where we'll store the button event so it doesn't get destroyed
+// before execution of the asynchronous code is completed.
+/* NOTE:
+ *	Note to self: please remember to invoice the Microsoft Addin Development
+ *	Documentation team about, or submit a pull request for, adding the event
+ *	documentation for the function-file <ExecuteFunction> manifest API to
+ *	the Git The Gist add-in tutorial. And a description of why it's used.
+ */
+// event.completed(); // Closes the tracked event processing loop in outlook
+let btnEvent = null;
+let unrendered = null; // stored pre-render md string for reverting rendered md.
+
+// Load Showdown and make it spicy!
+let converter = new showdown.Converter({
+	strikethrough: true,
+	tables: true,
+	tasklist: true,
+	emoji: true,
+	underline: true,
+	omitExtraWLInCodeBlocks: true,
+	parseImgDimensions: true,
+	ghCodeBlocks: true,
+	smartIndentationFix: true,
+	disableForced4SpacesIndentedSublists: true,
+	requireSpaceBeforeHeadingText: true,
+	encodeEmails: true,
+	openLinksInNewWindow: true,
+	backslashEscapesHTMLTags: true,
+});
+
+// -----------------------------------------------------------------------------
 // The initialize function must be run each time a new page is loaded
 Office.initialize = reason => {
 
 };
 
+// -----------------------------------------------------------------------------
 // Add any ui-less function here
 function convertMarkdown(event){
-    // This code is ran on a button press only. (I hope)
-    var item = Office.context.mailbox.item;
-    var content = item.body;
+	// store the event for later
+	btnEvent = event;
+
+  let item = Office.context.mailbox.item;
+  let body = item.body;
+	let contents = null;
+	let revert = null;
 
 	// Is enum, no instanceof (*u*)
 	if (item.itemType == Office.MailboxEnums.ItemType.Message){
 
-		// Load Showdown and make it spicy!
-		var converter = new showdown.Converter({
-			strikethrough: true,
-			tables: true,
-			tasklist: true,
-			emoji: true,
-			underline: true,
-			omitExtraWLInCodeBlocks: true,
-			parseImgDimensions: true,
-			ghCodeBlocks: true,
-			smartIndentationFix: true,
-			disableForced4SpacesIndentedSublists: true,
-			requireSpaceBeforeHeadingText: true,
-			encodeEmails: true,
-			openLinksInNewWindow: true,
-			backslashEscapesHTMLTags: true,
-		});
-
-		content.getAsync(Office.CoercionType.Text, {}, (result) => {
+		body.getAsync(Office.CoercionType.Text, {}, (result) => {
 			if (result.status == "succeeded"){
-				let html = converter.makeHtml(result.value);
+				if (unrendered === null){
+					unrendered = result.value;
+					contents = converter.makeHtml(unrendered);
+				}
+				else {
+					if (result.value != unrendered){
+						revert = confirm(
+							"You've modified the message since it was rendered and your changes "
+							+ "will be lost if reverted, would you like to revert it anyway?"
+						);
+						if (!revert) {
+							btnEvent.completed();
+							return;
+						}
+					}
 
-				content.setAsync(html, {coercionType:"html", }, (result) => {
+					contents = unrendered;
+					unrendered = null;
+				}
+
+
+				body.setAsync(contents, {coercionType:"html", }, (result) => {
 					// We have to have some kind of error handeling.
 					if(result.status != "succeeded")
 						console.log(result);
+
+					btnEvent.completed();
 				});
 			}
 			else {
 				console.log(result);
+				btnEvent.completed();
 			}
-
 		});
 	}
 }

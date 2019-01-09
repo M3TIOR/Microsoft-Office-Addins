@@ -2,10 +2,25 @@
 
 ![Project Status][status]
 
-This is a little office add-in I wrote to enable users to write their emails in
+This is a little office add-in I wrote to allows users to write their emails in
 Markdown.
 
 ### Installation
+
+This app is currently in development and is incomplete. Once complete, it will
+be hosted on the Office App Store.
+
+Currently you have the option to sideload the app. To do so follow the directions
+[for sideloading outlook add-ins][Outlook-Sideloading] and instead of selecting
+*"load from file"*, select *"load from URL"* and put this URL in the dialogue
+box:
+
+> https://m3tior.github.io/Microsoft-Office-Addins/buttondown/locales/[LOCALE]/manifest.xml
+
+And replace [LOCALE] with your region's appropriate locale code. Then that's it. You're good to go.
+
+Note: when this app is finished, you'll still be able to access the app via sideloading,
+so you don't have to worry about reinstalling it in the future.
 
 ### Features
 
@@ -13,6 +28,30 @@ The following features that are checked are features that I've implemented.
 I assume you can infer what the unchecked boxes mean. Features I plan on
 implementing may take some time since this isn't a priority project of mine.
 So please be patient, or submit a pull request with the addition.
+
+ - [x] Add a button to the message compose window that converts it's contents to markdown.
+
+ - [x] Add the ability to toggle the markdown render so users can preview what they have written.
+
+I want to add support for markdown rendering on the other major Microsoft
+platforms as well at some point. Just because I think it'd be kinda cool to
+use markdown for things outside of the programming / techie world. As I
+implement support for these different interfaces, I may expand this list to
+encompass the additional features for each specific platform.
+
+ - [ ] Add support for Microsoft Office Word
+ - [ ] Add support for Microsoft Office PowerPoint
+
+I also want to add support for different languages too. Just as a personal
+endeavor of mine to learn every language since I want to run for a government
+leadership role sometime in my future and I want to be able to respect other
+people in their nations by speaking their native tongue.
+
+ - [x] Add English Language support (**en-US** & **en-GB** locale codes)
+ - [ ] Add Spanish Language support (**es** & **es-419** locale codes)
+ - [ ] Add Korean Language support (**ko** locale code)
+ - [ ] Add Japanese Language support (**ja** locale code)
+ - [ ] Add Russian Language support (**ru** locale code)
 
 ### History
 
@@ -83,8 +122,9 @@ off the current hardware you're running / connected via web protocol.
 
  * Faster load times (depending on your hardware)
 
- * No matter what browser you're using; so long as it supports javascript,
-   It'll be there.
+ * No matter what browser you're using; so long as it supports JMetroid3
+ avascript,
+   It'll be there. (browser independent)
 
 There's also the fact that I can extend this software to encompass other
 Microsoft Office Applications should I feel like it.
@@ -93,5 +133,7 @@ Microsoft Office Applications should I feel like it.
 [InSDK]: http://www.inboxsdk.com/
 [GIHTML]: https://chrome.google.com/webstore/detail/html-inserter-for-gmail/lkdchkblgffcinmodbodlkclphfldkll?hl=en
 [MDH]: https://markdown-here.com/get.html
+
+[Outlook-Sideloading]: https://docs.microsoft.com/en-us/outlook/add-ins/sideload-outlook-add-ins-for-testing
 
 [status]: https://img.shields.io/badge/Project%20Status-On%20Hiatus-yellow.svg

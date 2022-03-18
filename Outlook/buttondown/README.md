@@ -122,8 +122,7 @@ off the current hardware you're running / connected via web protocol.
 
  * Faster load times (depending on your hardware)
 
- * No matter what browser you're using; so long as it supports JMetroid3
- avascript,
+ * No matter what browser you're using; so long as it supports Javascript,
    It'll be there. (browser independent)
 
 There's also the fact that I can extend this software to encompass other
